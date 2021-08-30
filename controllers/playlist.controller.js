@@ -21,7 +21,18 @@ const addPlaylist = async (req,res,next)=>{
 
         const foundUserData = await User.findById(userId);
         const foundPlayList = await PlayList.findOne({userId})
-        if(foundPlayList?.playLists?.length!==0){
+        if(!foundPlayList)
+        {
+            console.log("hello")
+            const addPlaylist = new PlayList({userId,playLists:[{playListName,videos:[]}]})
+            foundUserData.playLists = addPlaylist
+            await foundUserData.save()
+
+            const newPlayList = await(await addPlaylist.save()).populate("playLists.videos").execPopulate();
+
+            res.status(201).json({message:"video added to playlist",playList:newPlayList})
+        }
+        else if(foundPlayList?.playLists?.length!==0){
             return foundPlayList.playLists.map(async(item)=>{
                 if(item.playListName===playListName){
                     return  res.status(404).json({
@@ -36,16 +47,7 @@ const addPlaylist = async (req,res,next)=>{
             })  
            
         }
-        else{
-            const addPlaylist = new PlayList({userId,playLists:[{playListName,videos:[]}]})
-            foundUserData.playLists = addPlaylist
-            await foundUserData.save()
-
-            const newPlayList = await(await addPlaylist.save()).populate("playLists.videos").execPopulate();
-
-            res.status(201).json({message:"video added to playlist",playList:newPlayList})
-        }
-
+        
     } catch (error) {
         next(error)
     }
