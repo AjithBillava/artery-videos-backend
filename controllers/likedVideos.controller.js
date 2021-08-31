@@ -28,7 +28,7 @@ const addToLikedVideos = async(req,res,next) =>{
             foundUserLikedVideos.videos.push(videoId);
             const updatedVideos = await (await foundUserLikedVideos.save()).populate("videos").execPopulate()
 
-            res.status(200).json({
+            return res.status(200).json({
                 message:"video added to liked vidoes",
                 videos:updatedVideos
             })

@@ -23,7 +23,6 @@ const addPlaylist = async (req,res,next)=>{
         const foundPlayList = await PlayList.findOne({userId})
         if(!foundPlayList)
         {
-            console.log("hello")
             const addPlaylist = new PlayList({userId,playLists:[{playListName,videos:[]}]})
             foundUserData.playLists = addPlaylist
             await foundUserData.save()

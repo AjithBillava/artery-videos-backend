@@ -9,7 +9,7 @@ async function initializeDBConnection() {
         });
         console.log("successfully connected")
     } catch(error){
-        console.error("mongoose connectio failed... ",error)
+        console.error("mongoose connection failed... ",error)
     }
 }
 

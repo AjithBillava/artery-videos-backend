@@ -19,17 +19,16 @@ const addToHistory = async(req,res,next) =>{
     try {
         const {userId} = req.params;
         const {videoId } = req.body;
-        console.log(userId,videoId)
+        
         const foundUserData = await User.findById(userId);
 
         const foundUserHistory = await History.findOne({userId});
-        console.log(foundUserData,foundUserHistory)
         
         if( foundUserHistory){
             foundUserHistory.videos.push(videoId);
             const updatedVideos = await (await foundUserHistory.save()).populate("videos").execPopulate()
 
-            res.status(200).json({
+            return res.status(200).json({
                 message:"video added to Saved vidoes",
                 videos:updatedVideos
             })

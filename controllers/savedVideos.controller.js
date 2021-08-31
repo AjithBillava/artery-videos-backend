@@ -28,7 +28,7 @@ const addToSavedVideos = async(req,res) =>{
             foundUserSavedVideos.videos.push(videoId);
             const updatedVideos = await (await foundUserSavedVideos.save()).populate("videos").execPopulate()
 
-            res.status(200).json({
+            return res.status(200).json({
                 message:"video added to Saved vidoes",
                 videos:updatedVideos
             })

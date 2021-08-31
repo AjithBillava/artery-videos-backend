@@ -74,7 +74,6 @@ const registerUser = async(req,res,next) =>{
             }
 
             const user = new User({firstname,lastname,email,password})
-            console.log(user)
             bcrypt.genSalt(10,(err,salt)=>{
                 bcrypt.hash(user.password,salt,async(err,hash)=>{
                     if(err){
