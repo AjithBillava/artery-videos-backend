@@ -58,7 +58,7 @@ const removeFromSavedVideos = async(req,res,next) =>{
         const {videoId} = req.body
 
         const savedVideos = await SavedVideos.findOne({userId})
-        savedVideos.videos = savedVideos.filter(video=>String(video._id)!==String(videoId))
+        savedVideos.videos = savedVideos.videos.filter(video=>String(video._id)!==String(videoId))
 
         const newSavedVideos = await (await savedVideos.save()).populate("videos").execPopulate()
 
