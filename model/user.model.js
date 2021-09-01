@@ -19,22 +19,22 @@ const UserSchema = new Schema(
         type: String,
         required: [true, "Password is required"]
     },
-    history: {
+    history: [{
         type: Schema.Types.ObjectId,
         ref: "History"
-    },
-    likedVideos: {
+    }],
+    likedVideos: [{
         type: Schema.Types.ObjectId,
         ref: "LikedVideos"
-    },
-    savedVideos:{
+    }],
+    savedVideos:[{
       type: Schema.Types.ObjectId,
       ref:"SavedVideos"
-    },
-    playLists:{
+    }],
+    playLists:[{
         type: Schema.Types.ObjectId,
         ref:"PlayList"
-    }
+    }]
   },
   {
     timestamps: {
