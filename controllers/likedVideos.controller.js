@@ -61,7 +61,7 @@ const removeFromLikedVideos= async(req,res,next) =>{
 
         const newLikedVideos = await (await likedVideos.save()).populate("videos").execPopulate()
 
-        res.status(201).json({message:"video deleted from History",videos:newLikedVideos})
+        res.status(201).json({message:"video deleted from liked videos",videos:newLikedVideos})
 
     } catch (error) {
         next(error)

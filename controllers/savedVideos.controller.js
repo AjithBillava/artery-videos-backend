@@ -57,12 +57,12 @@ const removeFromSavedVideos = async(req,res,next) =>{
         const {userId} = req.params
         const {videoId} = req.body
 
-        const savedVideos = await History.findOne({userId})
-        savedVideos.videos = SavedVideos.videos.filter(video=>String(video._id)!==String(videoId))
+        const savedVideos = await SavedVideos.findOne({userId})
+        savedVideos.videos = savedVideos.filter(video=>String(video._id)!==String(videoId))
 
         const newSavedVideos = await (await savedVideos.save()).populate("videos").execPopulate()
 
-        res.status(201).json({message:"video deleted from History",videos:newSavedVideos})
+        res.status(201).json({message:"video deleted from saved videos",videos:newSavedVideos})
 
     } catch (error) {
         next(error)
