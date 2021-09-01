@@ -18,7 +18,7 @@ const addPlaylist = async (req,res,next)=>{
     try {
         const {userId} = req.params;
         const {playListName} = req.body;
-
+        let existAlready = false
         const foundUserData = await User.findById(userId);
         const foundPlayList = await PlayList.findOne({userId})
         if(!foundPlayList)
@@ -31,21 +31,25 @@ const addPlaylist = async (req,res,next)=>{
 
             res.status(201).json({message:"video added to playlist",playList:newPlayList})
         }
-        else if(foundPlayList?.playLists?.length!==0){
-            return foundPlayList.playLists.map(async(item)=>{
+        else if(foundPlayList?.playLists?.length>0){
+            foundPlayList.playLists.map(async(item)=>{
                 if(item.playListName===playListName){
+                    existAlready=true
                     return  res.status(404).json({
                                     message:"playlist already exist"
                                 })
                 }
-                else{
-                    foundPlayList.playLists.push({playListName,videos:[]})
-                    await foundPlayList.save()
-                    return res.status(201).json({message:"video added to playlist",playList:foundPlayList})
-                }
-            })  
-           
+                
+            }) 
+        // }
         }
+        if(!existAlready){
+            foundPlayList.playLists.push({playListName,videos:[]})
+            const newPlayList = await(await foundPlayList.save()).populate("playLists.videos").execPopulate()
+            return res.status(201).json({message:"video added to playlist",playList:newPlayList})
+        }
+        // else{
+            
         
     } catch (error) {
         next(error)
