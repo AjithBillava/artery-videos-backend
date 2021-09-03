@@ -66,9 +66,26 @@ const removeFromHistory = async(req,res,next) =>{
         next(error)
     }
 }
+const clearHistory = async(req,res,next) =>{
+    try {
+        
+        const {userId} = req.params
+        
+        const history = await History.findOne({userId})
+        history.videos = []
+
+        const newHistory = await (await history.save()).populate("videos").execPopulate()
+
+        res.status(201).json({message:"video deleted from History",videos:newHistory})
+
+    } catch (error) {
+        next(error)
+    }
+}
 
 module.exports = {
     getHistory,
     addToHistory,
-    removeFromHistory
+    removeFromHistory,
+    clearHistory
 }
