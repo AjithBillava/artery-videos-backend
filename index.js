@@ -16,6 +16,10 @@ const user = require("./routers/user.router")
 
 initializeDBConnection()
 
+app.get('/', (req, res) => {
+	res.json("Welcome, to artery-videos-backend...")
+  })
+
 app.use(bodyParser.json());
 app.use(cors())
 app.use("/v1/api/videos",videos)
