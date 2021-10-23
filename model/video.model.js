@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 const VideoSchema = new Schema({
-        videoName:{
+        name:{
             type:String,
             required:[true,"Video name is required"]
         },
